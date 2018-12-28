@@ -1,11 +1,24 @@
+import re
+
+
+def replace_power(raw_equation):
+    pattern = r'X\^([0-9])*'
+    power_list = re.findall(pattern, raw_equation)
+    if '' in power_list:
+        return None
+    raw_equation = raw_equation.replace('X^0', '*1')
+    for power in power_list:
+        raw_equation = raw_equation.replace("X^" + power, "X" * int(power))
+    return raw_equation
+
+
 def string_treatment(raw_equation):
     try:
         raw_equation = raw_equation.upper()
         raw_equation = raw_equation.replace(" ", "")
-        raw_equation = (raw_equation.replace("X^2", "X*X").
-                        replace("X^1", "X").replace("X^0", "1"))
-        if '^' in raw_equation:
-            print("I can't solve equation with degree that are not 0, 1 or 2.")
+        raw_equation = replace_power(raw_equation)
+        if raw_equation is None:
+            print("Format error.")
             raise IOError
         raw_equation = raw_equation.replace("X", "*1*X")
         raw_equation = (raw_equation.replace("+*", "+").
@@ -26,11 +39,14 @@ def get_coef(liste):
 
 
 def reduce_equation(raw_equation):
-    coef_array = [0, 0, 0]
     try:
         eq_a, eq_b = string_treatment(raw_equation)
         if (eq_a, eq_b) == (None, None):
             return None
+        length = eq_a.count('X') + eq_b.count('X') + 1
+        if length < 3:
+            length = 3
+        coef_array = [0] * length
         list_a = [item.split("*") for item in eq_a.split("+") if item != '']
         list_b = [item.split("*") for item in eq_b.split("+") if item != '']
 
