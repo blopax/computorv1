@@ -2,7 +2,7 @@ import re
 
 
 def replace_power(raw_equation):
-    pattern = r'X\^([0-9])*'
+    pattern = r'X\^([0-9]*)'
     power_list = re.findall(pattern, raw_equation)
     if '' in power_list:
         return None

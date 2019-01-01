@@ -24,6 +24,7 @@ class TestComputor(unittest.TestCase):
         self.assertEqual(computor.equation_info([-1, 0, 4, 0]), 2)
         self.assertEqual(computor.equation_info([-1, 0]), 0)
         self.assertEqual(computor.equation_info([-1, 0, 1, 2, 4, -5, 0, 7]), 7)
+        self.assertEqual(computor.equation_info([-1, 0, 1, 2, 4, -5, 0, 0, 0, 0, 0, 0, 12]), 12)
 
 
 if __name__ == "__main__":
